@@ -12,9 +12,3 @@ testData <- iris[-trainIndex,]
 
 # Erstelle einen SVM-Klassifikator
 model <- train(Species ~ ., data = trainData, method = 'svmLinear')
-
-# Vorhersagen erzeugen
-predictions <- predict(model, testData)
-
-# Genauigkeit evaluieren
-confusionMatrix(predictions, testData$Species)

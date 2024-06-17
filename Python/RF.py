@@ -16,10 +16,3 @@ clf = RandomForestClassifier(random_state=42)
 
 # Träniere den Klassifikator
 clf.fit(X_train, y_train)
-
-# Vorhersagen erzeugen
-y_pred = clf.predict(X_test)
-
-# Genauigkeit evaluieren
-accuracy = accuracy_score(y_test, y_pred)
-print(f'Accuracy: {accuracy}')

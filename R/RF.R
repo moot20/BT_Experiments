@@ -12,9 +12,3 @@ testData <- iris[-trainIndex,]
 
 # Erstelle einen Random Forest-Klassifikator
 model <- train(Species ~ ., data = trainData, method = 'rf', trControl = trainControl(method = "none"))
-
-# Vorhersagen erzeugen
-predictions <- predict(model, testData)
-
-# Genauigkeit evaluieren
-confusionMatrix(predictions, testData$Species)
