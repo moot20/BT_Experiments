@@ -4,7 +4,7 @@
 CSVFILE="energy_consumption_log.csv"
 
 # Write the header to the CSV file
-echo "Run,File,Energy_pkg_Joules,Energy_psys_Joules,Time_elapsed_seconds" > $CSVFILE
+echo "Run,File,Energy_pkg_Joules,Energy_psys_Joules,Time_elapsed_seconds,Memory_used_kb" > $CSVFILE
 
 # Function to run the measurement for a given file
 measure_energy() {
@@ -15,15 +15,16 @@ measure_energy() {
     for i in {1..50}
     do
         # Run the command and capture the output
-        OUTPUT=$(sudo perf stat -e power/energy-pkg/ -e power/energy-psys/ $INTERPRETER $FILEPATH 2>&1)
+        OUTPUT=$(sudo perf stat -e power/energy-pkg/ -e power/energy-psys/ /usr/bin/time -v $INTERPRETER $FILEPATH 2>&1)
         
         # Extract the values from the output
         ENERGY_PKG=$(echo "$OUTPUT" | grep "power/energy-pkg/" | awk '{print $1}')
         ENERGY_PSYS=$(echo "$OUTPUT" | grep "power/energy-psys/" | awk '{print $1}')
-        TIME_ELAPSED=$(echo "$OUTPUT" | grep "seconds time elapsed" | awk '{print $1}')
+        TIME_ELAPSED=$(echo "$OUTPUT" | grep "Elapsed (wall clock) time" | awk '{print $8}')
+        MEMORY_USED=$(echo "$OUTPUT" | grep "Maximum resident set size" | awk '{print $6}')
         
         # Append the results to the CSV file
-        echo "$i,$FILENAME,$ENERGY_PKG,$ENERGY_PSYS,$TIME_ELAPSED" >> $CSVFILE
+        echo "$i,$FILENAME,$ENERGY_PKG,$ENERGY_PSYS,$TIME_ELAPSED,$MEMORY_USED" >> $CSVFILE
     done
 }
 
