@@ -1,14 +1,25 @@
-library(caret)
 library(e1071)
+library(caret)
 
-# Datensatz 'Iris' laden
+# Load 'Iris' dataset
 data(iris)
 
-# Datensatz in Trainings- und Testdaten aufteilen
+# Split dataset into training and test sets
 set.seed(42)
-trainIndex <- createDataPartition(iris$Species, p = .7, list = FALSE, times = 1)
-trainData <- iris[trainIndex,]
-testData <- iris[-trainIndex,]
+train_indices <- createDataPartition(iris$Species, p = 0.7, list = FALSE)
+train_data <- iris[train_indices, ]
+test_data <- iris[-train_indices, ]
 
-# Erstelle einen SVM-Klassifikator
-model <- train(Species ~ ., data = trainData, method = 'svmLinear')
+# Create and train a linear SVM classifier
+model <- svm(
+    x = train_data[, -5],
+    y = train_data$Species,
+    type = "C-classification",
+    kernel = "linear",
+    cost = 1,        # Equivalent to C in sklearn
+    tolerance = 0.001,  # Equivalent to tol in sklearn
+    scale = FALSE,
+    fitted = TRUE,
+    cache.size = 40,
+    epsilon = 0.1
+)
