@@ -31,9 +31,17 @@ measure_energy() {
 # Measure energy for Python files
 measure_energy "./Python/SVM.py" "./venv/bin/python"
 measure_energy "./Python/RF.py" "./venv/bin/python"
+measure_energy "./Python/NB.py" "./venv/bin/python"
+measure_energy "./Python/LR.py" "./venv/bin/python"
+measure_energy "./Python/KNN.py" "./venv/bin/python"
+measure_energy "./Python/KMC.py" "./venv/bin/python"
 
 # Measure energy for R files
 measure_energy "./R/SVM.R" "Rscript"
 measure_energy "./R/RF.R" "Rscript"
+measure_energy "./R/NB.R" "Rscript"
+measure_energy "./R/LR.R" "Rscript"
+measure_energy "./R/KNN.R" "Rscript"
+measure_energy "./R/KMC.R" "Rscript"
 
 echo "Completed 50 runs for each file. Logs are saved in $CSVFILE"
